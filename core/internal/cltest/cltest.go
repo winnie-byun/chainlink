@@ -1692,3 +1692,39 @@ func MustNewJSONSerializable(t *testing.T, s string) pipeline.JSONSerializable {
 	require.NoError(t, err)
 	return *js
 }
+
+func SimulateIncomingHeads(t *testing.T, headTrackable strpkg.HeadTrackable, startBlockNumber int64, timeout time.Duration) (cleanup func()) {
+	t.Helper()
+
+	var ctx context.Context
+	var cancel context.CancelFunc
+	var chTimeout <-chan time.Time
+	if timeout > 0 {
+		ctx, cancel = context.WithTimeout(context.Background(), timeout)
+		defer cancel()
+		chTimeout = time.After(timeout)
+	} else {
+		ctx = context.Background()
+		cancel = func() {}
+	}
+
+	chDone := make(chan struct{})
+	go func() {
+		for {
+			select {
+			case <-chDone:
+				return
+			case <-chTimeout:
+				return
+			default:
+				headTrackable.OnNewLongestChain(ctx, models.Head{Number: startBlockNumber})
+				startBlockNumber++
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}()
+	return func() {
+		close(chDone)
+		cancel()
+	}
+}
