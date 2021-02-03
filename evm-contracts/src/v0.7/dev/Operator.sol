@@ -242,7 +242,7 @@ contract Operator is
     onlyOwner()
   {
     if (allowed) {
-      require(s_authorizedSenders[node].authorized == false, "Already authorized sender");
+      require(!s_authorizedSenders[node].authorized, "Already authorized sender");
       s_authorizedSenders[node] = Authorization(
         true,
         uint8(s_authorizedSenderList.length)
@@ -250,7 +250,7 @@ contract Operator is
       s_authorizedSenderList.push(node);
     }
     else {
-      require(s_authorizedSenders[node].authorized == true, "Already unauthorized sender");
+      require(s_authorizedSenders[node].authorized, "Already unauthorized sender");
       // copy last element into index slot, then pop last element
       s_authorizedSenderList[s_authorizedSenders[node].index] = s_authorizedSenderList[s_authorizedSenderList.length.sub(1)];
       s_authorizedSenderList.pop();
