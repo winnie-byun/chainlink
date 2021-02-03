@@ -39,5 +39,8 @@
   "optionalDependencies": {
     "@truffle/contract": "^4.2.29",
     "ethers": "^4.0.45"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.2.1"
   }
 }
