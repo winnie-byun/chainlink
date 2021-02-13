@@ -5,7 +5,7 @@ ConsumerTimestamp.setProvider(web3.currentProvider)
 
 module.exports = function (deployer, _, accounts) {
   deployer.deploy(ConsumerTimestamp,
-    // "0c63f2461b1e45b08d3b4957607e9b6d", // specID
     "0xE4ffd8d653c54780dbD1708a268488130ebABfdA", // Contract Address of Oracle
+    "0x11c6d510B5009a45EA9832828DE00f8cCe23c19E", // Contract Address of LinkToken
     { from: accounts[0], overwrite: false })
 }
