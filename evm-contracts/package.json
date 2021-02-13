@@ -41,6 +41,6 @@
     "ethers": "^4.0.45"
   },
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.2.1"
+    "@truffle/hdwallet-provider": "klaytn/truffle-hdwallet-provider-klaytn#v5.1.63-klaytn"
   }
 }
